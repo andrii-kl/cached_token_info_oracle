@@ -27,7 +27,3 @@ pub async fn get_all_tokens() -> Vec<TokenInfo> {
     read_guard.values().into_iter().cloned().collect()
 }
 
-// TODO
-// pub async fn get_token(key: &Currency) -> TokenInfo {
-// }
-

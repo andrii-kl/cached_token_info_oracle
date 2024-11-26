@@ -16,12 +16,11 @@ async fn fetch_token_info_data() {
     // TODO store data in to DB
 }
 
-pub async fn run() {
-    //TODO Get interval from the config file
+pub async fn run(update_interval: u64) {
     println!("Fetch token information Job started");
 
-    tokio::spawn(async {
-        let mut interval = interval(Duration::from_secs(15));
+    tokio::spawn(async move {
+        let mut interval = interval(Duration::from_secs(update_interval));
         loop {
             fetch_token_info_data().await;
 

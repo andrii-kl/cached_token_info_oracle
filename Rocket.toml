@@ -1,0 +1,11 @@
+[default]
+address = "127.0.0.1"  # Default IP address
+port = 8000            # Default port
+
+[development]
+address = "127.0.0.1"
+port = 8000
+
+[production]
+address = "127.0.0.1"    # Listen on all interfaces
+port = 8080

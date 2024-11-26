@@ -12,20 +12,20 @@ use crate::models::core_token_models::{TokenInfo, TokenPrice};
 / https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd
 / https://pro-api.coingecko.com/api/v3/coins/list
 **/
-
 pub async  fn fetch_token_info_data() -> Result<Vec<TokenInfo>, Error> {
-// async fn fetch_token_info_data() -> HashMap<String, HashMap<String, String>> {
-    // TODO Get ids and vs_currencies, retries from the config file.
-    // let tokens = "bitcoin,ethereum";
+    let coingecko_config = crate::config::get_config().coingecko_config();
 
-    let mut attempts = 0;
-    let retries: u32 = 5;
-    let url = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd";
+    let mut attempts_counter = 0;
+    let retries: u16 = coingecko_config.number_attempts().clone();
+
+    let url = format!("https://api.coingecko.com/api/v3/simple/price?ids={}&vs_currencies={}",
+                      coingecko_config.token_ids(),
+                      coingecko_config.token_currencies());
 
     loop {
         let client = reqwest::Client::new();
         let response = client
-            .get(url)
+            .get(&url)
             .header(CONTENT_TYPE, "application/json")
             .header(ACCEPT, "application/json")
             .send()
@@ -42,20 +42,20 @@ pub async  fn fetch_token_info_data() -> Result<Vec<TokenInfo>, Error> {
 
                 return Ok(convert_map_to_object(token_prices_map))
             },
-            Ok(res) if res.status() == StatusCode::INTERNAL_SERVER_ERROR && attempts < retries => {
+            Ok(res) if res.status() == StatusCode::INTERNAL_SERVER_ERROR && attempts_counter < retries => {
                 // Retry on server errors (5xx)
-                attempts += 1;
-                println!("Retrying... Attempt {}/{}", attempts, retries);
+                attempts_counter += 1;
+                println!("Retrying... Attempt {}/{}", attempts_counter, retries);
                 sleep(Duration::from_secs(5)).await
             },
             Ok(res) => {
-                println!("Retrying... Attempt {}/{}", attempts, retries);
+                println!("Retrying... Attempt {}/{}", attempts_counter, retries);
                 return Ok(Vec::new())
             }
-            Err(e) if attempts < retries => {
+            Err(e) if attempts_counter < retries => {
                 // Retry on network or timeout errors
-                attempts += 1;
-                println!("Error: {}. Retrying... Attempt {}/{}", e, attempts, retries);
+                attempts_counter += 1;
+                println!("Error: {}. Retrying... Attempt {}/{}", e, attempts_counter, retries);
                 sleep(Duration::from_secs(5)).await;
             }
             Err(e) => {
