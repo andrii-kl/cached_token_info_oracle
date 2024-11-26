@@ -1,4 +1,3 @@
-use crate::{TokenInfo, TokenPrice};
 use reqwest::header::{ACCEPT, CONTENT_TYPE};
 use rocket::serde::Deserialize;
 use serde_json::{Deserializer, Value};
@@ -6,6 +5,7 @@ use std::collections::HashMap;
 use std::time::Duration;
 use reqwest::{Error, StatusCode};
 use tokio::time::sleep;
+use crate::models::core_token_models::{TokenInfo, TokenPrice};
 
 /**
 / Request examples:

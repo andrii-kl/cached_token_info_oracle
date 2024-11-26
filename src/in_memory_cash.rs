@@ -1,8 +1,8 @@
-use crate::TokenInfo;
 use lazy_static::lazy_static;
 use rocket::yansi::Paint;
 use std::collections::HashMap;
 use tokio::sync::RwLock;
+use crate::models::core_token_models::TokenInfo;
 
 lazy_static! {
     // TokenTicker | TokenInfo
@@ -22,11 +22,12 @@ pub async fn add_all(values: Vec<TokenInfo>) {
     }
 }
 
-// TODO
-// pub async fn get_token(key: &Currency) -> TokenInfo {
-// }
-
 pub async fn get_all_tokens() -> Vec<TokenInfo> {
     let read_guard = CASH.read().await;
     read_guard.values().into_iter().cloned().collect()
 }
+
+// TODO
+// pub async fn get_token(key: &Currency) -> TokenInfo {
+// }
+

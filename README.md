@@ -1,6 +1,9 @@
-# Token Price Oracle/Service
+# Token Information Oracle
 
 The Token Price Oracle Service is a high-performance, asynchronous API designed to provide accurate and real-time token price data. This service integrates seamlessly with multiple data sources, ensuring reliability, scalability, and flexibility for developers building applications that require up-to-date cryptocurrency price information.
+
+![oracle_diagram.png](static/oracle_diagram.png)
+
 
 ## Key Features
 
@@ -91,11 +94,10 @@ The Token Price Oracle Service is your dependable solution for accessing accurat
 
 ## Road Map
 
---> 1. MVP Solution. Getting price data for btc/eth tokens from the 1 source (coingeko). Store data only in the runtime custom cash.
+1. MVP Solution. Getting price data for btc/eth tokens from the 1 source (coingeko). Store data only in the runtime custom cash. (Current)
 2. Add ability to configur list of tokens, coingeko keys, time intervals in the config file. Add unit tests.
 3. Add light weight DB to stor data and provide historical price data.
 4. Add ability to work with multiple proxies to bypass request limits. 
 5. Integrate more data sources
-
 
 
