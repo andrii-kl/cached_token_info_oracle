@@ -1,0 +1,27 @@
+
+[coingecko_config]
+# Supported Currencies List
+# "btc",  "eth",  "ltc",  "bch",  "bnb",  "eos",  "xrp",  "xlm",  "link",  "dot",  "yfi",  "usd",
+# "aed",  "ars",  "aud",  "bdt",  "bhd",  "bmd",  "brl",  "cad",  "chf",  "clp",  "cny",  "czk",  "dkk",
+# "eur",  "gbp",  "gel",  "hkd",  "huf",  "idr",  "ils",  "inr",  "jpy",  "krw",  "kwd",  "lkr",  "mmk",
+# "mxn",  "myr",  "ngn",  "nok",  "nzd",  "php",  "pkr",  "pln",  "rub",  "sar",  "sek",  "sgd",  "thb",
+# "try",  "twd",  "uah",  "vef",  "vnd",  "zar",  "xdr",  "xag",  "xau",  "bits",  "sats"
+#
+token_currencies = "usd"
+
+# List of all suported tokens that updates periodicly:
+# https://docs.google.com/spreadsheets/d/1wTTuxXt8n9q7C4NDXqQpI3wpKu1_5bGVmP9Xz0XGSyU
+# https://api.coingecko.com/api/v3/coins/list
+token_ids = "bitcoin,ethereum"
+
+#How often service update token information/pricess
+token_update_period_sec = 10
+
+api_url = "https://pro-api.coingecko.com"
+
+# todo move to the .env file
+# API Key to get token price information
+api_key=""
+
+# How many times service try fetch data in case an error.
+number_attempts = 5

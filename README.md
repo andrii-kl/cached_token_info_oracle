@@ -100,4 +100,16 @@ The Token Price Oracle Service is your dependable solution for accessing accurat
 4. Add ability to work with multiple proxies to bypass request limits. 
 5. Integrate more data sources
 
+## How to run
+
+#### Run with test config
+```sh
+APP_ENV=test cargo run
+```
+
+#### Run with prod config
+```sh
+APP_ENV=prod cargo run
+```
+
 

@@ -24,6 +24,7 @@ pub async fn add_all(values: Vec<TokenInfo>) {
 
 pub async fn get_all_tokens() -> Vec<TokenInfo> {
     let read_guard = CASH.read().await;
+    // Value can be modified by job, so it's a reason to use clone
     read_guard.values().into_iter().cloned().collect()
 }
 

@@ -1,3 +1,4 @@
+use std::env::VarError;
 use config::{Config, File};
 use serde::Deserialize;
 use once_cell::sync::Lazy;
@@ -9,6 +10,7 @@ pub struct AppConfig {
 
 #[derive(Debug, Deserialize)]
 pub struct CoingeckoConfig {
+    api_url: String,
     api_key: String,
     token_currencies: String,
     token_ids: String,
@@ -17,6 +19,9 @@ pub struct CoingeckoConfig {
 }
 
 impl CoingeckoConfig {
+    pub fn api_url(&self) -> &String {
+        &self.api_url
+    }
     pub fn api_key(&self) -> &String {
         &self.api_key
     }
@@ -42,11 +47,20 @@ impl AppConfig {
 }
 
 static SETTINGS: Lazy<AppConfig> = Lazy::new(|| {
-    let config = Config::builder()
-        .add_source(File::with_name("config.toml"))
-        .add_source(File::with_name("coingecko_conf.toml"))
-        .build()
-        .expect("Failed to load configuration");
+    let env = std::env::var("APP_ENV");
+
+    let config = match env {
+        Ok(app_env) => {
+            Config::builder()
+                .add_source(File::with_name("config.toml"))
+                .add_source(File::with_name(&format!("coingecko_conf_{}.toml", app_env)))
+                .build()
+                .expect("Failed to load configuration")
+        }
+        Err(_) => {
+            panic!("Can't read env var")
+        }
+    };
 
     let mut app_conf = config
         .try_deserialize::<AppConfig>()
