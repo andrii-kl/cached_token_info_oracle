@@ -1,1 +1,4 @@
 #General
+
+ddos_protection = true
+puzzle_signer_pk = "puzzle_signer_private_key"

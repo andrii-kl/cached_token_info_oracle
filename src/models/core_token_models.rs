@@ -11,3 +11,15 @@ pub struct TokenPrice {
     pub currency: String,
     pub price: String
 }
+
+#[derive(Serialize, Debug, FromForm)]
+pub struct PuzzleTask {
+    task: String,
+    signature: String,
+}
+
+impl PuzzleTask {
+    pub fn new(task: String, signature: String) -> Self {
+        PuzzleTask { task, signature }
+    }
+}

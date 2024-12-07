@@ -5,7 +5,9 @@ use once_cell::sync::Lazy;
 
 #[derive(Debug, Deserialize)]
 pub struct AppConfig {
-    coingecko_config: CoingeckoConfig
+    coingecko_config: CoingeckoConfig,
+    ddos_protection: bool,
+    puzzle_signer_pk: String
 }
 
 #[derive(Debug, Deserialize)]
@@ -43,6 +45,13 @@ impl AppConfig {
     // Getter for `coingecko_config`
     pub fn coingecko_config(&self) -> &CoingeckoConfig {
         &self.coingecko_config
+    }
+
+    pub fn ddos_protection(&self) -> &bool {
+        &self.ddos_protection
+    }
+    pub fn puzzle_signer_pk(&self) -> &String {
+        &self.puzzle_signer_pk
     }
 }
 
