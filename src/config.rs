@@ -1,13 +1,13 @@
-use std::env::VarError;
 use config::{Config, File};
-use serde::Deserialize;
 use once_cell::sync::Lazy;
+use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 pub struct AppConfig {
     coingecko_config: CoingeckoConfig,
     ddos_protection: bool,
-    puzzle_signer_pk: String
+    puzzle_signer_pk: String,
+    puzzle_difficulty: u8
 }
 
 #[derive(Debug, Deserialize)]
@@ -42,16 +42,17 @@ impl CoingeckoConfig {
 }
 
 impl AppConfig {
-    // Getter for `coingecko_config`
     pub fn coingecko_config(&self) -> &CoingeckoConfig {
         &self.coingecko_config
     }
-
     pub fn ddos_protection(&self) -> &bool {
         &self.ddos_protection
     }
     pub fn puzzle_signer_pk(&self) -> &String {
         &self.puzzle_signer_pk
+    }
+    pub fn puzzle_difficulty(&self) -> &u8 {
+        &self.puzzle_difficulty
     }
 }
 

@@ -1,4 +1,6 @@
 #General
 
 ddos_protection = true
-puzzle_signer_pk = "puzzle_signer_private_key"
+puzzle_signer_pk = "my_secret_key"
+puzzle_difficulty = 1
+one_time_access_tokens = true
