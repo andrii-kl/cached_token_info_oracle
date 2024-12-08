@@ -18,6 +18,9 @@ pub enum AppError {
     #[error("Access token is invalid or missing")]
     InvalidToken(),
 
+    #[error("Token has been used before")]
+    TokenAlreadyUsed(),
+
 }
 
 impl From<AppError> for (Status, Json<ErrorResponse>) {
@@ -27,6 +30,7 @@ impl From<AppError> for (Status, Json<ErrorResponse>) {
             AppError::FromHexError(_) => (error.to_string(), 400),
             AppError::MissingConfig() => (error.to_string(), 400),
             AppError::InvalidToken() => (error.to_string(), 400),
+            AppError::TokenAlreadyUsed() => (error.to_string(), 400),
         };
 
         let error_response = ErrorResponse { message, code };

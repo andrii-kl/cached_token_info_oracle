@@ -5,24 +5,24 @@ use crate::jobs::token_info_update_job;
 use rocket::serde::{Deserialize, Serialize};
 use rocket::yansi::Paint;
 
-mod in_memory_cash;
 mod api;
 mod jobs;
 mod controllers;
 mod models;
 mod config;
 mod services;
+mod db;
 
 #[rocket::main]
 async fn main() {
     let conf = config::get_config();
 
     let job_task = tokio::spawn(async move {
-        token_info_update_job::run(*conf.coingecko_config().token_update_period_sec()).await;
+        token_info_update_job::run(conf.coingecko_config.token_update_period_sec).await;
     });
 
     let controller_task = tokio::spawn(async move {
-        let _ = controller_config::rocket(config::clone()).launch().await;
+        let _ = controller_config::rocket(conf.clone()).launch().await;
     });
 
     // Await all tasks concurrently

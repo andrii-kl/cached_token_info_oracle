@@ -13,14 +13,14 @@ use crate::models::core_token_models::{TokenInfo, TokenPrice};
 / https://pro-api.coingecko.com/api/v3/coins/list
 **/
 pub async  fn fetch_token_info_data() -> Result<Vec<TokenInfo>, Error> {
-    let coingecko_config = crate::config::get_config().coingecko_config();
+    let coingecko_config = &crate::config::get_config().coingecko_config;
 
     let mut attempts_counter = 0;
-    let retries: u16 = coingecko_config.number_attempts().clone();
+    let retries: u16 = coingecko_config.number_attempts;
 
     let url = format!("https://api.coingecko.com/api/v3/simple/price?ids={}&vs_currencies={}",
-                      coingecko_config.token_ids(),
-                      coingecko_config.token_currencies());
+                      &coingecko_config.token_ids,
+                      &coingecko_config.token_currencies);
 
     loop {
         let client = reqwest::Client::new();
@@ -48,7 +48,7 @@ pub async  fn fetch_token_info_data() -> Result<Vec<TokenInfo>, Error> {
                 println!("Retrying... Attempt {}/{}", attempts_counter, retries);
                 sleep(Duration::from_secs(5)).await
             },
-            Ok(res) => {
+            Ok(_) => {
                 println!("Retrying... Attempt {}/{}", attempts_counter, retries);
                 return Ok(Vec::new())
             }

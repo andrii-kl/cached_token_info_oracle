@@ -1,6 +1,6 @@
 use rocket::{Build, Rocket};
 use crate::config::AppConfig;
-use crate::in_memory_cash;
+use crate::db::in_memory_token_info;
 use rocket::State;
 use crate::models::core_token_models::AccessToken;
 
@@ -13,7 +13,7 @@ struct PuzzleQuery {
 
 #[get("/prices")]
 async fn prices(_access_token: AccessToken) -> String {
-    let token_prices = in_memory_cash::get_all_tokens().await;
+    let token_prices = in_memory_token_info::get_all_tokens().await;
     serde_json::to_string(&token_prices).unwrap()
 }
 
