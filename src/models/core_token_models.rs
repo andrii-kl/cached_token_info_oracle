@@ -26,15 +26,22 @@ pub struct PuzzleSolution {
     pub signature: String,
 }
 
-#[derive(Serialize, Debug, FromForm)]
+#[derive(Deserialize, Serialize, Debug, FromForm)]
 pub struct AccessToken {
-    access_token: String,
-    signature: String,
+    pub access_token: String,
+    pub signature: String,
 }
 
 impl AccessToken {
     pub fn new(access_token: String, signature: String) -> Self {
         AccessToken { access_token, signature }
+    }
+
+    pub fn default() -> AccessToken {
+        Self::new(
+            String::from("000000000-0000-0000-0000-000000000000"),
+            String::from("00000")
+        )
     }
 }
 

@@ -1,6 +1,5 @@
 use hex::FromHexError;
 use rocket::http::Status;
-use rocket::response::status::BadRequest;
 use rocket::serde::json::Json;
 use rocket::serde::{Deserialize, Serialize};
 use thiserror::Error;
@@ -11,7 +10,13 @@ pub enum AppError {
     InvalidKeyLength(#[from] hmac::digest::InvalidLength),
 
     #[error("Failed to decoding a hex string in to Vec<u8>: {0}")]
-    FromHexError(#[from] FromHexError)
+    FromHexError(#[from] FromHexError),
+
+    #[error("Config data is missing")]
+    MissingConfig(),
+
+    #[error("Access token is invalid or missing")]
+    InvalidToken(),
 
 }
 
@@ -20,6 +25,8 @@ impl From<AppError> for (Status, Json<ErrorResponse>) {
         let (message, code) = match error {
             AppError::InvalidKeyLength(_) => (error.to_string(), 400),
             AppError::FromHexError(_) => (error.to_string(), 400),
+            AppError::MissingConfig() => (error.to_string(), 400),
+            AppError::InvalidToken() => (error.to_string(), 400),
         };
 
         let error_response = ErrorResponse { message, code };

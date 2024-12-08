@@ -1,4 +1,4 @@
-use crate::services::puzzle_service::{create_puzzle_task, find_nonce, sign_message_hmac, sign_message_hmac_hex, verify_nonce, verify_signature, verify_signature_hex};
+use crate::services::puzzle_service::{create_puzzle_task, find_nonce, sign_message_hmac, sign_message_hmac_hex, verify_access_token_hex, verify_nonce, verify_signature, verify_signature_hex};
 use std::collections::HashSet;
 
 
@@ -9,6 +9,9 @@ const TASK_MESSAGE: &str = "dcb891a4-11ae-4a8f-a45e-f9a4b5e7f330";
 const SIGNATURE: &str = "f9071a790bd757e269224b010a1b1403dd5ded374bf871f77a76f80e1a739d5e";
 const DIFFICULTY: u8 = 1;
 const APPROPRIATE_NONCE: u64 = 10;
+
+const TOKEN_ACCESS: &str = "access_8a0c5cfb-4b61-4a4f-babb-c8ec8470ef0e";
+const TOKEN_ACCESS_SIGNATURE: &str = "1954f946acc6b1f2da948be581b2db2f56e2d4ae2cb682944a1db737d8c4f2dc";
 
 
 #[test]
@@ -32,7 +35,31 @@ fn verif_sign_message_test(){
         Err(error) => {
             panic!("Not valid result in this test {}", error)
         }
-    } ;
+    };
+}
+
+#[test]
+fn verif_sign_token_access_test(){
+    match verify_access_token_hex(&KEY, &TOKEN_ACCESS.as_bytes(), &TOKEN_ACCESS_SIGNATURE) {
+        Ok(is_valid) => {
+            assert_eq!(is_valid, true)
+        }
+        Err(error) => {
+            panic!("Not valid result in this test {}", error)
+        }
+    };
+}
+
+#[test]
+fn impossible_use_task_as_access_token_test(){
+    match verify_access_token_hex(&KEY, &TASK_MESSAGE.as_bytes(), &SIGNATURE) {
+        Ok(is_valid) => {
+            assert_eq!(is_valid, false)
+        }
+        Err(error) => {
+            panic!("Not valid result in this test {}", error)
+        }
+    };
 }
 
 #[test]

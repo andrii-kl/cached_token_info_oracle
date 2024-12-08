@@ -2,7 +2,7 @@ use config::{Config, File};
 use once_cell::sync::Lazy;
 use serde::Deserialize;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct AppConfig {
     coingecko_config: CoingeckoConfig,
     ddos_protection: bool,
@@ -10,7 +10,7 @@ pub struct AppConfig {
     puzzle_difficulty: u8
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct CoingeckoConfig {
     api_url: String,
     api_key: String,
@@ -67,8 +67,8 @@ static SETTINGS: Lazy<AppConfig> = Lazy::new(|| {
                 .build()
                 .expect("Failed to load configuration")
         }
-        Err(_) => {
-            panic!("Can't read env var")
+        Err(error) => {
+            panic!("{}", error)
         }
     };
 
@@ -82,4 +82,8 @@ static SETTINGS: Lazy<AppConfig> = Lazy::new(|| {
 // Function to get a reference to the global settings
 pub fn get_config() -> &'static AppConfig {
     &SETTINGS
+}
+
+pub fn clone() -> AppConfig {
+    SETTINGS.clone()
 }

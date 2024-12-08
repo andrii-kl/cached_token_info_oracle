@@ -71,6 +71,14 @@ pub fn verify_signature(key: &[u8], message: &[u8], signature: &[u8]) -> Result<
     Ok(mac.verify_slice(signature).is_ok())
 }
 
+pub fn verify_access_token_hex(key: &[u8], message: &[u8], signature: &str) -> Result<bool, AppError> {
+    if !message.starts_with("access_".as_bytes()) {
+        Ok(false)
+    } else {
+        verify_signature_hex(key, message, signature)
+    }
+}
+
 pub fn verify_signature_hex(key: &[u8], message: &[u8], signature: &str) -> Result<bool, AppError> {
     let mut mac = HmacSha256::new_from_slice(key)?;
 

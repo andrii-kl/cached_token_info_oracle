@@ -2,6 +2,7 @@ use rocket::{Build, Rocket};
 use crate::config::AppConfig;
 use crate::in_memory_cash;
 use rocket::State;
+use crate::models::core_token_models::AccessToken;
 
 #[derive(FromForm)]
 struct PuzzleQuery {
@@ -10,14 +11,8 @@ struct PuzzleQuery {
 }
 
 
-#[get("/prices?<query..>")]
-async fn prices(query: Option<PuzzleQuery>, ddos_protection: &State<bool>) -> String {
-    if **ddos_protection {
-        "DDOS Protection is enabled.".to_string();
-    } else {
-        "DDOS Protection is disabled.".to_string();
-    }
-
+#[get("/prices")]
+async fn prices(_access_token: AccessToken) -> String {
     let token_prices = in_memory_cash::get_all_tokens().await;
     serde_json::to_string(&token_prices).unwrap()
 }

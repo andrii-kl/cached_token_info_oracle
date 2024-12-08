@@ -22,11 +22,7 @@ async fn main() {
     });
 
     let controller_task = tokio::spawn(async move {
-        let _ = controller_config::rocket(
-            *conf.ddos_protection(),
-            conf.puzzle_signer_pk().to_string(),
-            *conf.puzzle_difficulty()
-        ).launch().await;
+        let _ = controller_config::rocket(config::clone()).launch().await;
     });
 
     // Await all tasks concurrently
