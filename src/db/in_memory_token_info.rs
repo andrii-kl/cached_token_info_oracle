@@ -5,7 +5,6 @@ use tokio::sync::RwLock;
 use crate::models::core_token_models::TokenInfo;
 
 lazy_static! {
-    // TokenTicker | TokenInfo
     pub static ref CASH: RwLock<HashMap<String, TokenInfo>> = RwLock::new(HashMap::new());
 }
 

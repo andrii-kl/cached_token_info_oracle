@@ -3,11 +3,12 @@ use tokio;
 
 use crate::api::coingecko_api;
 use tokio::time::{interval, Duration};
+use super::super::db::in_memory_token_info;
 
 async fn fetch_token_info_data() {
     match coingecko_api::fetch_token_info_data().await {
         Ok(latest_token_info) => {
-            super::super::in_memory_cash::add_all(latest_token_info).await;
+            in_memory_token_info::add_all(latest_token_info).await;
         }
         Err(e) => {
             println!("Error fetching data: {}", e);

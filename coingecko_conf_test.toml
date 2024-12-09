@@ -15,7 +15,7 @@ token_currencies = "usd"
 token_ids = "bitcoin,ethereum"
 
 #How often service update token information/pricess
-token_update_period_sec = 10
+token_update_period_sec = 100
 
 api_url = "https://api.coingecko.com"
 

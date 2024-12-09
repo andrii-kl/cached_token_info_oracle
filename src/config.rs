@@ -1,49 +1,24 @@
-use std::env::VarError;
 use config::{Config, File};
-use serde::Deserialize;
 use once_cell::sync::Lazy;
+use serde::Deserialize;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct AppConfig {
-    coingecko_config: CoingeckoConfig
+    pub coingecko_config: CoingeckoConfig,
+    pub ddos_protection: bool,
+    pub puzzle_signer_pk: String,
+    pub puzzle_difficulty: u8,
+    pub one_time_access_tokens: bool
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct CoingeckoConfig {
-    api_url: String,
-    api_key: String,
-    token_currencies: String,
-    token_ids: String,
-    token_update_period_sec: u64,
-    number_attempts: u16,
-}
-
-impl CoingeckoConfig {
-    pub fn api_url(&self) -> &String {
-        &self.api_url
-    }
-    pub fn api_key(&self) -> &String {
-        &self.api_key
-    }
-    pub fn token_currencies(&self) -> &String {
-        &self.token_currencies
-    }
-    pub fn token_ids(&self) -> &String {
-        &self.token_ids
-    }
-    pub fn token_update_period_sec(&self) -> &u64 {
-        &self.token_update_period_sec
-    }
-    pub fn number_attempts(&self) -> &u16 {
-        &self.number_attempts
-    }
-}
-
-impl AppConfig {
-    // Getter for `coingecko_config`
-    pub fn coingecko_config(&self) -> &CoingeckoConfig {
-        &self.coingecko_config
-    }
+    pub api_url: String,
+    pub api_key: String,
+    pub token_currencies: String,
+    pub token_ids: String,
+    pub token_update_period_sec: u64,
+    pub number_attempts: u16,
 }
 
 static SETTINGS: Lazy<AppConfig> = Lazy::new(|| {
@@ -57,8 +32,8 @@ static SETTINGS: Lazy<AppConfig> = Lazy::new(|| {
                 .build()
                 .expect("Failed to load configuration")
         }
-        Err(_) => {
-            panic!("Can't read env var")
+        Err(error) => {
+            panic!("{}", error)
         }
     };
 

@@ -1,21 +1,27 @@
 use rocket::{Build, Rocket};
-use crate::in_memory_cash;
+use crate::config::AppConfig;
+use crate::db::in_memory_token_info;
+use rocket::State;
+use crate::models::core_token_models::AccessToken;
 
-// Try visiting:
-// http://127.0.0.1:8000/prices
+#[derive(FromForm)]
+struct PuzzleQuery {
+    puzzle_id: String,
+    puzzle_result: String,
+}
+
+
 #[get("/prices")]
-async fn prices() -> String {
-    let token_prices = in_memory_cash::get_all_tokens().await;
+async fn prices(_access_token: AccessToken) -> String {
+    let token_prices = in_memory_token_info::get_all_tokens().await;
     serde_json::to_string(&token_prices).unwrap()
 }
 
 #[get("/")]
 async fn home() -> String {
-    //TODO add home page
-    prices().await
+    "Welcome to the Token Information Oracle application".to_string()
 }
 
-pub fn rocket() -> Rocket<Build> {
-    rocket::build()
-        .mount("/", routes![prices, home])
+pub fn routes() -> Vec<rocket::Route> {
+    routes![prices, home]
 }
