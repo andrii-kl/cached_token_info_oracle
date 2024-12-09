@@ -14,11 +14,11 @@ pub fn issue_access_token(pk:&[u8]) -> Result<AccessToken, AppError> {
     Ok(AccessToken::new(token.to_string(), signature?))
 }
 
-pub fn create_puzzle_task(pk:&[u8]) -> Result<PuzzleTask, AppError> {
+pub fn create_puzzle_task(pk:&[u8], difficulty: u8) -> Result<PuzzleTask, AppError> {
     let my_uuid = Uuid::new_v4();
     let signature = sign_message_hmac_hex(pk, my_uuid.to_string().as_bytes());
 
-    Ok(PuzzleTask::new(my_uuid.to_string(), signature?))
+    Ok(PuzzleTask::new(my_uuid.to_string(), signature?, difficulty))
 }
 
 pub fn verify_nonce(message: &str, nonce: &u64, difficulty: u8) -> bool {

@@ -40,7 +40,7 @@ async fn check_solution(solution: Json<PuzzleSolution>, app_config: &State<AppCo
 
 #[get("/get_task")]
 async fn get_task(app_config: &State<AppConfig>) -> Result<Json<PuzzleTask>, (Status, Json<ErrorResponse>)> {
-    match create_puzzle_task(&app_config.puzzle_signer_pk.as_bytes()) {
+    match create_puzzle_task(&app_config.puzzle_signer_pk.as_bytes(), app_config.puzzle_difficulty) {
         Ok(puzzle_task) => Ok(Json(puzzle_task)),
         Err(error) => Err(error.into()),
     }

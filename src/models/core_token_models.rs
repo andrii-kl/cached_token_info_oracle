@@ -14,8 +14,9 @@ pub struct TokenPrice {
 
 #[derive(Serialize, Debug, FromForm)]
 pub struct PuzzleTask {
-    task: String,
-    signature: String,
+    pub task: String,
+    pub signature: String,
+    pub difficulty: u8
 }
 
 #[derive(Deserialize, Serialize,  Debug, FromForm)]
@@ -47,8 +48,8 @@ impl AccessToken {
 
 
 impl PuzzleTask {
-    pub fn new(task: String, signature: String) -> Self {
-        PuzzleTask { task, signature }
+    pub fn new(task: String, signature: String, difficulty: u8) -> Self {
+        PuzzleTask { task, signature, difficulty}
     }
     pub fn get_task(&self) -> &String {
         &self.task

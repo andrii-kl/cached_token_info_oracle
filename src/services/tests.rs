@@ -1,4 +1,4 @@
-use crate::services::puzzle_service::{create_puzzle_task, find_nonce, sign_message_hmac, sign_message_hmac_hex, verify_access_token_hex, verify_nonce, verify_signature, verify_signature_hex};
+use crate::services::puzzle_service::{create_puzzle_task, find_nonce, sign_message_hmac_hex, verify_access_token_hex, verify_nonce, verify_signature_hex};
 use std::collections::HashSet;
 
 
@@ -88,7 +88,7 @@ fn create_task_test(){
     let mut set: HashSet<String> = HashSet::with_capacity(1000);
 
     for _ in 0..750 {
-        let task = create_puzzle_task(KEY).unwrap().get_task().clone();
+        let task = create_puzzle_task(KEY, 1).unwrap().get_task().clone();
 
         assert_eq!(set.contains(&task), false, "Service have provide unic tasks");
 
@@ -101,7 +101,7 @@ fn create_task_test(){
 
 #[test]
 fn find_verif_sig_and_nonce_full_cycle_test(){
-    let task = create_puzzle_task(KEY).unwrap();
+    let task = create_puzzle_task(KEY, 1).unwrap();
     let task_message = task.get_task();
 
     let nonce = find_nonce(&task_message, DIFFICULTY);
