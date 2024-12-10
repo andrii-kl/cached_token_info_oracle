@@ -12,7 +12,7 @@ use crate::models::core_token_models::{TokenInfo, TokenPrice};
 / https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd
 / https://pro-api.coingecko.com/api/v3/coins/list
 **/
-pub async  fn fetch_token_info_data() -> Result<Vec<TokenInfo>, Error> {
+pub async  fn fetch_token_info_data() -> anyhow::Result<Vec<TokenInfo>, Error> {
     let coingecko_config = &crate::config::get_config().coingecko_config;
 
     let mut attempts_counter = 0;

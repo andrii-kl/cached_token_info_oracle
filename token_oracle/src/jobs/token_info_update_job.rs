@@ -14,7 +14,6 @@ async fn fetch_token_info_data() {
             println!("Error fetching data: {}", e);
         }
     }
-    // TODO store data in to DB
 }
 
 pub async fn run(update_interval: u64) {
