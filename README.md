@@ -7,31 +7,31 @@ The Token Price Oracle Service is a high-performance, asynchronous API designed 
 
 ## Key Features
 
- 1. Asynchronous API
+ 1. **Asynchronous API**
 
     The service is built using modern asynchronous Rust libraries to handle high-concurrency requests efficiently.
     Users can fetch token prices without blocking, allowing for smooth integration into distributed systems or microservice architectures.
 
 
-2. Stateless Proof-of-Work (PoW)  DDoS Protection system.
+2. **Stateless Proof-of-Work (PoW)  DDoS Protection system.**
 
     By utilizing cryptographic techniques, it ensures that only clients expending computational effort can proceed, deterring abusive requests. 
     This approach is efficient, scalable, and configurable, offering flexibility to enable or disable protection based on operational requirements.
 
 
-3. Integration with Multiple Data Sources
+3. **Integration with Multiple Data Sources**
 
     Connects to multiple cryptocurrency exchanges, market aggregators, and data providers to fetch live and historical price data.
     Utilizes redundancy by querying multiple sources, ensuring high availability and accuracy even if one provider is down.
 
 
-4. Real-Time Price Updates
+4. **Real-Time Price Updates**
 
     Supports WebSocket and HTTP APIs for continuous price feeds or on-demand queries.
     Ensures low latency in delivering updates to keep your application in sync with market changes.
 
 
-5. Advanced Caching System
+5. **Advanced Caching System**
 
     Implements an intelligent in-memory caching layer to handle a large number of concurrent readers efficiently.
     Reduces the number of external API calls to data providers, significantly cutting operational costs.
@@ -39,13 +39,13 @@ The Token Price Oracle Service is a high-performance, asynchronous API designed 
     Particularly beneficial for applications with heavy read traffic, ensuring high performance while minimizing API provider expenses.
 
 
-6. Customizable Aggregation Logic
+6. **Customizable Aggregation Logic**
 
     Offers configurable algorithms for price aggregation (e.g., weighted averages, median pricing).
     Allows developers to fine-tune how prices are calculated from different data sources based on their application's requirements.
 
 
-7. Secure and Scalable
+7. **Secure and Scalable**
 
     Implements secure communication channels (e.g., HTTPS, token-based authentication) for API usage.
     Scales horizontally to handle a growing number of requests and maintain performance under heavy loads.
@@ -53,22 +53,22 @@ The Token Price Oracle Service is a high-performance, asynchronous API designed 
 
 ## Example Use Cases
 
-1. DeFi Applications
+1. **DeFi Applications**
 
    Fetch real-time prices for on-chain token swaps, lending, or liquidity pool management.
 
 
-2. Portfolio Management
+2. **Portfolio Management**
 
     Provide users with live token valuations and historical price trends.
 
 
-3. Analytics Dashboards
+3. **Analytics Dashboards**
 
     Aggregate and visualize token price movements for traders and investors.
 
 
-4. High-Read Workloads
+4. **High-Read Workloads**
 
     Use the advanced caching system to efficiently serve thousands of simultaneous requests while minimizing costs.
 
@@ -104,12 +104,14 @@ The Token Price Oracle Service is your dependable solution for accessing accurat
 
 ### HTTP Endpoints Oracle
 
-1) Fetch the latest price for all token.
+1) **Fetch the latest price for all token.**
+
+**Request:**
+- **Method:** GET
+- **Endpoint:** `/prices`
 
 
-    GET /prices
-
-Request example:
+**Request example:**
 
 Header (If ddos protection enabled) :
 
@@ -118,28 +120,32 @@ X-Access-Token:
 {"access_token": "access_0938b24f-80ee-4669-bc2d-1df2d7c4c2c0","signature": "aa3aff15432f68286e9c60f3cef1d82f173aca54fcec6158d5a29ee04ca02723"}
 ```
 
-Response example:
-```json
-[
+**Response example:**
+```
+{[
   { token_ticker: "ethereum", price_list: [{ currency: "usd", price: "3649.95" }] }, 
   { token_ticker: "bitcoin", price_list: [{ currency: "usd", price: "96991" }] }
-]
+]}
 ```      
 
 
-2)  Fetch the latest price for a specific token. (todo)
+2)  **Fetch the latest price for a specific token. (todo)**
 
+**Request:**
+- **Method:** GET
+- **Endpoint:** `/price/{token}`
 
-    GET /price/{token}
 
 ### HTTP Endpoints Puzzle Service
 
-1)  Get task
+1)  **Get task**
+
+**Request:**
+- **Method:** GET
+- **Endpoint:** `/puzzle/get_task`
 
 
-    GET /puzzle/get_task
-
-Response example:
+**Response example:**
 ```json
 {
 "task": "dcb891a4-11ae-4a8f-a45e-f9a4b5e7f330",
@@ -148,12 +154,13 @@ Response example:
 }
 ```
 
-2) Check resolution and recived access token.
+2) **Check resolution and recived access token.**
 
+**Request:**
+- **Method:** POST
+- **Endpoint:** `/puzzle/check_resolution `
 
-    POST /puzzle/check_resolution 
-
-Request example:
+**Request example:**
 
 ```json
 {
@@ -163,7 +170,7 @@ Request example:
 }
 ```
 
-Response example:
+**Response example:**
 
 ```json
 {
@@ -172,37 +179,34 @@ Response example:
 }
 ```
 
-## Token Oracle Configuration
-
-
 
 
 ## How to run
 
-1) Configure token oracle
+1) **Configure token oracle**
 - token_oracle/config.toml (Puzzle configuration)
 - token_oracle/coingecko_conf_test/prod.toml (Access to the Coingecko and data structure)
 
-2) Configure client
+2) **Configure client**
 - client/config.toml
 
-3) Run Token Oracle
+3) **Run Token Oracle**
 
 ```sh
 cd token_oracle
 ```
 
-#### Run with test config
+Run with test config
 ```sh
 APP_ENV=test cargo run
 ```
 
-#### Run with prod config
+Run with prod config
 ```sh
 APP_ENV=prod cargo run
 ```
 
-3) Run Client
+3) **Run Client**
 
 ```sh
 cd client
